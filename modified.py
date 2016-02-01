@@ -16,7 +16,7 @@ def test():
     lines = a.split('\n')
     # print a
     ts = time.time()
-    date = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+    date = datetime.datetime.fromtimestamp(ts).isoformat()
     #  if speedtest could not connect set the speeds to 0
     if "Cannot" in a:
         p = 100
@@ -31,8 +31,11 @@ def test():
     #  save the data to file for local network plotting
     out_file = open('data.csv', 'a')
     writer = csv.writer(out_file)
-    writer.writerow((date.isoformat(), p, d, u))
+    writer.writerow((date, p, d, u))
     out_file.close()
+    _ = os.popen('git add data.csv').read()
+    _ = os.popen('git commit data.csv -m "Data from {}"'.format(date)).read()
+    _ = os.popen('git push origin gh-pages').read()
 
     # #  connect to twitter
     # TOKEN=""
