@@ -1,1 +1,37 @@
-Heelo
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="jquery.csv.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var url = 'https://raw.githubusercontent.com/erral/speedtest/gh-pages/data.csv?';
+        $.get(url, function(csvString){
+          var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+          var data = google.visualization.arrayToDataTable(arrayData);
+/*
+          var data = google.visualization.arrayToDataTable([
+            ['Date', 'Ping (ms)', 'Download (Mbit/s)', 'Upload (Mbit/s)'],
+            ['2016-02-01T13:19:18.223095',  51.55, 65.1, 6.62],
+          ]);
+*/
+          var options = {
+            title: 'Speed Test',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+          };
+
+          var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+          chart.draw(data, options);
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <div id="curve_chart" style="width: 900px; height: 500px"></div>
+  </body>
+</html>
