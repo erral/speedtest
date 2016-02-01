@@ -35,7 +35,7 @@ def test():
     out_file.close()
     _ = os.popen('git add data.csv').read()
     _ = os.popen('git commit data.csv -m "Data from {}"'.format(date)).read()
-    _ = os.popen('git push origin gh-pages').read()
+    _ = os.popen('git push origin gh-pages -q').read()
 
     # #  connect to twitter
     # TOKEN=""
